@@ -1,6 +1,16 @@
 # Mecanum Buggy - Run Andechser 1
 
 ---
+## Table of Contents
+
+- [Motivation](#motivation)
+- [Operate SG90 with wire](#operate-sg90-with-wire)
+- [Operate SG90 over WiFi](#operate-sg90-servo-motor-over-wifi)
+
+- [Build chassis](#build-chassis)
+
+
+---
 ## Motivation
 
 The beginnig was a video on this NVIDIA [web page](https://blogs.nvidia.com/blog/fraunhofer-research-robotics/) (at around 0:38). 
@@ -310,6 +320,33 @@ are allowed to access to the local network (= your home network).
 ![Local Network](./images/local-network-1.png)
 
 ![Local Network](./images/local-network-2.png)
+
+
+
+---
+## Build Chassis
+
+It turns out SG90 turns only +-180 degrees, which means
+the car moves only 2-3 mm. 
+
+In order to let the motor rotate continuously, over 360 degrees, 
+we would need [FS90](https://eckstein-shop.de/Feetech-FS90-6V-15kgcm-Analog-Servo). 
+
+It costs, and takes time to get them. 
+
+So I decided to break the potentiometers inside SG90. 
+
+
+![Potentiometer](./images/potentiometer-1.jpg)
+
+The green device at the left of the motor is the potentiometer. 
+One can just rip off the black cap to let the motor
+rotate continuously. The 4 black caps on the right are the 
+ones that are already removed from other motors. 
+
+**Note!** **This is an irreversible process.** One cannot
+put the cap again on the potentiometer. Please do this
+trick with an SG90 motor that you are allowed to break.
 
 
 
