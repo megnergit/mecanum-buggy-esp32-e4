@@ -1,4 +1,4 @@
-# Mecanum Buggy - Andechser 1
+# Mecanum Buggy - Run Andechser 1!
 
 ---
 ## Motivation
