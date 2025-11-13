@@ -312,10 +312,7 @@ rotates accordingly.
 
 **NOTE!**
 
-When you encounter that No Route or path found to 
-the host, check, Local Network, and make sure
-that Arduino IDE and your browser (here Google Chrome)
-are allowed to access to the local network (= your home network). 
+When you encounter that No Route or path found to the host, check, Local Network, and make sure that Arduino IDE and your browser (here Google Chrome) are allowed to access to the local network (= your home network). 
 
 ![Local Network](./images/local-network-1.png)
 
@@ -339,27 +336,19 @@ It costs, and takes time to get them.
 
 So I decided to break the potentiometers inside SG90. 
 
-
 ![Potentiometer](./images/potentiometer-1.jpg)
 
 The green device at the left of the motor is the potentiometer. 
-One can just rip off the black cap to let the motor
-rotate continuously. The 4 black caps on the right are the 
-ones that are already removed from other motors. 
+One can just rip off the black cap to let the motor rotate continuously. The 4 black caps on the right are the  ones that are already removed from other motors. 
 
-**Note!** **This is an irreversible process.** One cannot
-put the cap again on the potentiometer. Please do this
-trick with an SG90 motor that you are allowed to break.
+**Note!** **This is an irreversible process.** One cannot put the cap again on the potentiometer. Please do this trick with an SG90 motor that you are allowed to break.
 
 
 ### File horn of motors
 
-The wheels I bought have a hub like a circlar, boxy hole to fix the motor. The horns of SG90 do not fit. 
-So I had to file the horns a bit. 
+The wheels I bought have a hub like a circlar, boxy hole to fix the motor. The horns of SG90 do not fit. So I had to file the horns a bit. 
 
-Put plastic adhesive inside the wheel holes, 
-push the motor horns into the hubs, and wait over 
-a night.  
+Put plastic adhesive inside the wheel holes, push the motor horns into the hubs, and wait over a night.  
 
 ![Round horn](./images/file-1.jpg)
 
@@ -369,17 +358,109 @@ a night.
 ... with a cream cheese container. 
 ![Chassis from bottom](./images/chassis-1.jpg)
 
-Note that this is a bottom view. That is why the labeling are flipped left and right. Also note the 
-direction of the tilting of the sub-wheels (installed on a main wheel with +-45 degrees rotation).
-They should look "<>" from the bottom, and "><" from the top. 
+**Note that this is a bottom view**. That is why the labeling are flipped left and right. Also note the direction of the tilting of the sub-wheels (installed on a main wheel with +-45 degrees rotation). They should look "<>" from the bottom, and "><" from the top. 
 
 The name of our prototype vehicle is "Andechser 1". 
 ![Chassis from bottom](./images/chassis-2.jpg)
 
 
 ---
-## Build Chassis
 
+## Search neutral pulse width
+
+Our goal here is to let Andechser 1 to **run straight forward**. 
+
+This is not a trivial mission, as we do not have potentiometers
+any more, we cannot use the absolute position of the rotation angle of the motors. We will control an SG90 motor solely by the pulse widths. 
+
+A pulse width is a duration of a pulse (I imagine it is a width of a to-phat signal) we give to the control pin (orange cable) of the motor. The minimum and the maximum pulse widths are around 500 micro sec and 2500 mirco sec.  
+
+At around 1100--1200 micro seconds pulse, the motor stops rotating, and stand still. If the pulse width is shorter than that, the motor rotates one direction. If the pulse width is a lot shorter than the neutral pulse width, the motor rotates one direction but faster. 
+When the pulse width is longer than the neutral pulse width, the motor rotates to the other direction. 
+
+The problem is that we do not know what is the neutral pulse width for a given SG90 motor. Therefore we have to find out by changing the pulse width and see if the wheel stops rotating. 
+
+`// filename: esp32_wroom_auto_test.inu
+```cpp
+#include <Arduino.h>
+
+// ===== PWM/LEDC basic =====
+const int LEDC_HZ   = 50;
+const int LEDC_BITS = 16;
+const uint32_t TOP  = (1UL << LEDC_BITS) - 1;
+const uint32_t PERIOD_US = 20000;
+
+// ===== test target: one wheel (RF) =====
+const int PIN_LF = 23;
+const int PIN_RF = 22;
+const int PIN_LR = 19;
+const int PIN_RR = 18;
+
+// ===== control in microseconds =====
+// Here are the default neutral pulse width
+
+// int NEUTRAL_US = 1270;  // halt LF
+// int NEUTRAL_US = 1273;  // halt RF
+int NEUTRAL_US = 1179;  // halt LR
+// int NEUTRAL_US = 1175;  // halt RR
+
+const int PIN_TEST = PIN_LR;
+
+int DELTA_US   = 30;  // defaulf offset.
+
+// ===== helpers =====
+uint32_t usToDuty(uint16_t us){
+  return (uint32_t)((uint64_t)us * TOP / PERIOD_US);
+}
+void writeUs(int pin, int us){
+  us = constrain(us, 500, 2500);
+  ledcWrite(pin, usToDuty(us));
+}
+void stopRF(){ writeUs(PIN_TEST, NEUTRAL_US); }
+void fwdRF(){  writeUs(PIN_TEST, NEUTRAL_US + DELTA_US); }
+
+void printStatus(const char* tag){
+  Serial.print(tag);
+  Serial.print("  NEUTRAL_US="); Serial.print(NEUTRAL_US);
+  Serial.print("  DELTA_US=");   Serial.print(DELTA_US);
+  Serial.print("  (stop=");      Serial.print(NEUTRAL_US);
+  Serial.print(", fwd=");        Serial.print(NEUTRAL_US + DELTA_US);
+  Serial.println(")");
+}
+
+void setup(){
+  Serial.begin(115200);
+  Serial.println("\n=== One-wheel test (RF@GPIO22) ===");
+  Serial.println("Keys: s=Stop, f=Forward, [ / ] = Neutral -/+1us, < / > = Delta -/+1us, p=print");
+
+  ledcAttach(PIN_TEST, LEDC_HZ, LEDC_BITS);
+  stopRF();  // at the start, use neutral pulse width given above.
+  printStatus("INIT");
+}
+
+void loop(){
+  // wait for the input through serial monitor
+  if(Serial.available()){
+    char c = Serial.read();
+    if(c=='s'){ stopRF();  printStatus("STOP"); }
+    if(c=='f'){ fwdRF();   printStatus("FWD "); }
+    if(c=='['){ NEUTRAL_US--; stopRF(); printStatus("NEUT-"); }
+    if(c==']'){ NEUTRAL_US++; stopRF(); printStatus("NEUT+"); }
+    if(c=='<'){ if(DELTA_US>0) DELTA_US--; printStatus("DLTA-"); }
+    if(c=='>'){ DELTA_US++; printStatus("DLTA+"); }
+    if(c=='p'){ printStatus("STAT"); }
+  }
+
+  // do nothing. 
+  delay(5);
+}
+
+```
+
+
+
+---
+## 
 
 
 ---
