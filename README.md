@@ -131,7 +131,7 @@ After uploading the code, if SG90 motor started to wave its arm to 180 deg and t
 The wiring is the same.  Note,
 
 1. Authentication information is stored in ```secrets.h```.
-2. ```secrets.h``` is not committed, but please edit your ```secrets_example.h``` to suit your WiFi.
+2. Please edit your ```secrets_example.h``` so that it matches your Wi-Fi settings.
 
 The directory structure is so far as follows. 
 
