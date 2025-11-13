@@ -1,4 +1,4 @@
-# Mecanum Buggy - Run Andechser 1
+#Mecanum Buggy - Run Andechser 1
 
 ---
 ## Table of Contents
@@ -457,16 +457,77 @@ void loop(){
 
 ```
 
+The procedure is, 
+
+1. select the wheel to test. 
+
+```cpp
+const int PIN_TEST = PIN_LR;
+```
+
+In this case we will look for the neutral pulse width for left rear wheel. 
+
+2. just after we upload the code, the left rear wheel is most likely rotating. 
+
+3. open serial monitor, click on the input window to activate the keyboard input, and then hit '[' or ']'. 
+This reduces or increases the pulse width to give to the motor. 
+
+4. look for the pulse width where the motor stops rotating, and note it. 
+
+![Serial monitor input](./images/serial-monitor-3.png)
+
+---
+## Let Buggy roll forward
+
+In order a buggy to roll forward, following two conditions must be met.
+
+1. All four wheels rotates to the same direction. 
+2. All four wheels rotates about the same speed. 
+
+
+### Wiring
+
+There are no real constraints but the code assumes
+
+| Wheel |  ESP32  |
+|-------|---------|
+| LF    | GPIO 23 |
+| RF    | GPIO 22 |
+| LR    | GPIO 19 |
+| RR    | GPIO 18 |
+
+Other points are
+
+- use Li-ion 18650 battery to feed power to the motors
+- **Do not feed  5V to ESP32**. ESP32 drive with 3.3 V.
+- connect GND of 18650 and ESP32. 
+
+![All 4 wheels forward](./images/test1.gif)
+
+As you see, LF is too fast, and RF is too slow. 
+Need more adjustment. 
+
+User interface. 
+![User Interface](./images/ui-3.png)
+
+---
+## Let Buggy roll sideward
+
+
+User interface. 
+![User Interface](./images/ui-4.png)
 
 
 ---
-## 
+## Memorandum
 
+### How to create gif animation
 
----
-# Appendix
-##
-
+1. took movie with QuickTime Player
+2. convert to gif file,
+```sh
+ffmpeg -i input.mov -filter_complex "[0:v] fps=30,scale=640:-1:flags=lanczos,split [a][b];[a] palettegen [p];[b][p] paletteuse" output.gif
+``` 
 
 ---
 # END
