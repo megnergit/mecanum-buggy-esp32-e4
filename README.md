@@ -28,7 +28,7 @@ This makes staring irrelevant for a vehicle. One can remove the staring mechanis
 
 We only need a corridor in a warehouse that is exactly the same width with the vehicle. 
 
-I first thought how cool Fraunhofer Institute is, but it turns out Mecanum wheel was invented by a Swedish engineer Bengt Erland, and was patented in 1970s ('Mecanum'  is the name of the company). 
+I first thought how cool Fraunhofer Institute is, but it turns out Mecanum wheel was invented by a Swedish engineer Bengt Erland Ilon, and was patented in 1970s ('Mecanum'  is the name of the company). 
 
 I wanted to reproduce a buggy with Mecanum wheels
 and would like to see it runs sideway with my own eyes. 
@@ -499,7 +499,7 @@ There are no real constraints but the code assumes
 Other points are
 
 - use Li-ion 18650 battery to feed power to the motors
-- **Do not feed  5V to ESP32**. ESP32 drive with 3.3 V.
+- **Do not feed  5V to ESP32**. ESP32 drives with 3.3 V.
 - connect GND of 18650 and ESP32. 
 
 ![All 4 wheels forward](./images/test1.gif)
@@ -513,21 +513,37 @@ User interface.
 ---
 ## Let Buggy roll sideward
 
+![Right strafe](./images/strafe-1.gif)
+
+Satisfied. Herr Ilon was correct. 
 
 User interface. 
 ![User Interface](./images/ui-4.png)
 
+The code is in the directory ```esp32_wroom_auto_sideward```.
 
 ---
 ## Memorandum
 
-### How to create gif animation
+### How to create gif animation from mov file
 
-1. took movie with QuickTime Player
-2. convert to gif file,
+1. take a movie clip with QuickTime Player and a web cam.
+2. convert it to gif file,
 ```sh
 ffmpeg -i input.mov -filter_complex "[0:v] fps=30,scale=640:-1:flags=lanczos,split [a][b];[a] palettegen [p];[b][p] paletteuse" output.gif
 ``` 
+
+### How to create gif animation from MP4 file
+
+1. take a movie with a compact digital camera
+2. convert it to gif file, 
+```sh
+
+ffmpeg -i input.mp4 -filter_complex \
+"[0:v] fps=30,scale=640:-1:flags=lanczos,split [a][b];\
+[a] palettegen [p];[b][p] paletteuse" \
+output.gif
+```
 
 ---
 # END

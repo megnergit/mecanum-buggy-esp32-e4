@@ -15,12 +15,12 @@ const int PIN_RR = 18;
 // ===== control in microseconds =====
 // Here are the default neutral pulse width
 
-int NEUTRAL_US = 1301;  // halt LF
-// int NEUTRAL_US = 1273;  // halt RF
+// int NEUTRAL_US = 1180;  // halt LF
+int NEUTRAL_US = 1290;  // halt RF
 // int NEUTRAL_US = 1179; // halt LR
 // int NEUTRAL_US = 1173;  // halt RR
 
-const int PIN_TEST = PIN_LF;
+const int PIN_TEST = PIN_RF;
 
 int DELTA_US = 30; // defaulf offset.
 

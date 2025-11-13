@@ -15,8 +15,12 @@ int NEUTRAL_US=1000;
 int DELTA_US  =25;   
 
 // offsets for each wheel 
-int TRIM_STOP_US[4]={301,160,175,173}; 
-int TRIM_FWD_US [4]={42,40,32,36};     
+// int TRIM_STOP_US[4]={301,160,175,173}; 
+// int TRIM_STOP_US[4]={195, 160, 175, 173};
+// int TRIM_STOP_US[4]={195, 303, 175, 173};
+int TRIM_STOP_US[4]={180, 290, 175, 173} ;
+
+int TRIM_FWD_US [4]={60,28,32,36};     
 
 // direction of roatete. 1 : one direction, -1 : the other direction
 int DIR[4]={ -1, +1, -1, +1 };  // {LF,RF,LR,RR}
