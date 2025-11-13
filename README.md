@@ -13,26 +13,15 @@
 ---
 ## Motivation
 
-The beginnig was a video on this NVIDIA [web page](https://blogs.nvidia.com/blog/fraunhofer-research-robotics/) (at around 0:38). 
+The beginning was a video on this NVIDIA [web page](https://blogs.nvidia.com/blog/fraunhofer-research-robotics/) (at around 0:38). 
 
+This web page was about NVIDIA Omniverse, and how one can use Omniverse to simulate a hardware to accelerate the development of autonomous driving cart. But what caught my eyes in the video was the [Mecanum wheel](https://en.wikipedia.org/wiki/Mecanum_wheel). Mecanum wheels enable a vehicle to run sideway straight, while looking exactly to front. 
 
-This web page was about NVIDIA Omniverse, and how one can 
-use it to simulate a hardware to accelerate the development. 
+This makes staring irrelevant for a vehicle. One can remove the staring mechanism as a whole. One can also forget about turning radius of a vehicle. A corridor in a warehouse has to be only as wide as the width of the vehicle. 
 
-But what caught my eyes is the [Mecanum wheel](https://en.wikipedia.org/wiki/Mecanum_wheel). 
+I first thought how cool Fraunhofer Institute is, but it turns out Mecanum wheel was invented by a Swedish engineer Bengt Erland Ilon, and was patented in US in 1970s ('Mecanum' is the name of his company). 
 
-Mecanum wheels enable a vehicle to run sideway straight, while 
-looking exactly to front. 
-
-This makes staring irrelevant for a vehicle. One can remove the staring mechanism as a whole. One can also forget about turning radius of a vehicle. 
-
-We only need a corridor in a warehouse that is exactly the same width with the vehicle. 
-
-I first thought how cool Fraunhofer Institute is, but it turns out Mecanum wheel was invented by a Swedish engineer Bengt Erland Ilon, and was patented in 1970s ('Mecanum'  is the name of the company). 
-
-I wanted to reproduce a buggy with Mecanum wheels
-and would like to see it runs sideway with my own eyes. 
-I will use ESP32 to operate the buggy over WiFi. 
+I wanted to reproduce a buggy with Mecanum wheels, and would like to see if it really runs sideway with my own eyes. I will use ESP32 to operate the buggy over WiFi. 
 
 ---
 ## Operate SG90 with wire
@@ -56,9 +45,7 @@ I will use ESP32 to operate the buggy over WiFi.
 | red                 | 5V of Li-ion 18650|
 | orange              | GPIO 23 |
 
-
-Make sure **connect** GND of ESP32 and GND of Li-ion battery.
-
+Make sure to **connect** GND of ESP32 and GND of Li-ion battery.
 
 ---
 ### Code
@@ -109,7 +96,7 @@ void loop() {
 
 ```
 
-Choose the right board and the port to upload the code. In my environment they are following. 
+Choose the right board and the right port to upload the code. In my environment they are  following. 
 
 |        |                        |   
 |--------|------------------------|
@@ -129,32 +116,22 @@ Then upload it.
 
 ![Uplaod](./images/upload-1.png)
 
-
 **NOTE!**
 
-There are two types of USB mini-B cable (the interface to ESP32). 
-One transmits data and power, and the other only power. The latter cannot be used to to write 
-Arduino program on to ESP32 chip. 
+There are two types of USB mini-B cables (the interface to ESP32 from the laptop). One transmits data and power, and the other only power. The latter cannot be used to write  Arduino program on to ESP32 chip. Two cables look exactly the same. Use the one that is "known" to be a data cable. Otherwise one can easily [waste a day](https://github.com/megnergit/AWS_IoT_ESP32_E2).
 
-Two cables look exactly the same. 
-Use the one that is "known" to be a data cable. 
-Otherwise one can easily [waste a day](https://github.com/megnergit/AWS_IoT_ESP32_E2)
 
-If the arm of SG90 motor waves (= go to 180 deg and then back to 0, and repeat the move forever),
-the system is working fine. 
-
+After uploading the code, if SG90 motor started to wave its arm to 180 deg and then back to 0 deg, and repeat the move forever, the system is working fine. 
 
 ---
 ## Operate SG90 servo motor over WiFi
 
 ## Code
 
-The wiring is the same.  
-
-Note,
+The wiring is the same.  Note,
 
 1. Authentication information is stored in ```secrets.h```.
-2. ```secrets.h``` is not commited, but please edit your ```secrets_example.h``` to suit your WiFi.
+2. ```secrets.h``` is not committed, but please edit your ```secrets_example.h``` to suit your WiFi.
 
 The directory structure is so far as follows. 
 
@@ -186,7 +163,7 @@ $ tree . -L 2
 Charlie wrote the code for me. I included NTP, but it is a matter of taste. 
 
 ```cpp
-
+ deg
 #include <WiFi.h>
 #include <WebServer.h>
 #include <ESPmDNS.h>
@@ -302,35 +279,28 @@ Then you will see something like this.
 
 ![Serial monitor output](./images/serial-monitor-2.png)
 
-Open the IP ```192.168.178.85``` in this case as you see 
-in the serial monitor (yours will be different). 
+Open the IP ```192.168.178.85``` in this case, as you see in the serial monitor (yours will be different). 
 
 ![UI](./images/ui-1.png)
 
-Move the slider, and see the arm of SG90 servo motor  
-rotates accordingly. 
+Move the slider, and see the arm of SG90 servo motor rotates accordingly. 
 
 **NOTE!**
 
-When you encounter that No Route or path found to the host, check, Local Network, and make sure that Arduino IDE and your browser (here Google Chrome) are allowed to access to the local network (= your home network). 
+When you encounter that 'No Route or Path found' error, check, 'Local Network' in system preference in the case of Mac OSX. Make sure that Arduino IDE and your browser (here Google Chrome) are allowed to access the local network (= your home network). 
 
 ![Local Network](./images/local-network-1.png)
 
 ![Local Network](./images/local-network-2.png)
 
 
-
 ---
 ## Build Chassis
 
-
 ### Remove caps of potentiometers 
 
-It turns out SG90 turns only +-180 degrees, which means
-the car moves only 2-3 mm. 
-
-In order to let the motor rotate continuously, over 360 degrees, 
-we would need [FS90](https://eckstein-shop.de/Feetech-FS90-6V-15kgcm-Analog-Servo). 
+It turns out SG90 rotates only +-180 degrees, which means the car moves only 2-3 mm. 
+In order to let the motor rotate continuously, over 360 degrees, we would need [FS90](https://eckstein-shop.de/Feetech-FS90-6V-15kgcm-Analog-Servo). 
 
 It costs, and takes time to get them. 
 
@@ -338,20 +308,17 @@ So I decided to break the potentiometers inside SG90.
 
 ![Potentiometer](./images/potentiometer-1.jpg)
 
-The green device at the left of the motor is the potentiometer. 
-One can just rip off the black cap to let the motor rotate continuously. The 4 black caps on the right are the  ones that are already removed from other motors. 
+The green device at the left of the motor is the potentiometer. One can just rip off the black cap to let the motor rotate continuously. The 4 black caps on the right are the ones that are already removed from other motors. 
 
-**Note!** **This is an irreversible process.** One cannot put the cap again on the potentiometer. Please do this trick with an SG90 motor that you are allowed to break.
-
+**Note!** **This is an irreversible process.** One cannot put the cap back again on the potentiometer. Please do this with an SG90 motor that you are allowed to break.
 
 ### File horn of motors
 
-The wheels I bought have a hub like a circlar, boxy hole to fix the motor. The horns of SG90 do not fit. So I had to file the horns a bit. 
+The wheels I bought have a hub like a circular, boxy hole to fix the motor. The horns of SG90 do not fit. So I had to file the horns a bit. 
 
 Put plastic adhesive inside the wheel holes, push the motor horns into the hubs, and wait over a night.  
 
 ![Round horn](./images/file-1.jpg)
-
 
 ### Build Chassis
 
@@ -363,20 +330,16 @@ Put plastic adhesive inside the wheel holes, push the motor horns into the hubs,
 The name of our prototype vehicle is "Andechser 1". 
 ![Chassis from bottom](./images/chassis-2.jpg)
 
-
 ---
-
 ## Search neutral pulse width
 
-Our goal here is to let Andechser 1 to **run straight forward**. 
+Our goal here is to let Andechser 1 to **run forward straight**. 
 
-This is not a trivial mission, as we do not have potentiometers
-any more, we cannot use the absolute position of the rotation angle of the motors. We will control an SG90 motor solely by the pulse widths. 
+This is not a trivial mission, as we do not have potentiometers any more, we cannot use the absolute position of the rotation angle of the motors. We will control an SG90 motor solely by the pulse widths. 
 
-A pulse width is a duration of a pulse (I imagine it is a width of a to-phat signal) we give to the control pin (orange cable) of the motor. The minimum and the maximum pulse widths are around 500 micro sec and 2500 mirco sec.  
+A pulse width is a duration of a pulse (I imagine, it is a width of a top-hat signal) we give to the control pin of the motor (orange cable). The minimum and the maximum pulse widths are around 500 micro-sec and 2500 micro-sec.  
 
-At around 1100--1200 micro seconds pulse, the motor stops rotating, and stand still. If the pulse width is shorter than that, the motor rotates one direction. If the pulse width is a lot shorter than the neutral pulse width, the motor rotates one direction but faster. 
-When the pulse width is longer than the neutral pulse width, the motor rotates to the other direction. 
+At around 1100--1200 micro-secs pulse, the motor stops rotating, and stands still. If the pulse width is shorter than that, the motor rotates to one direction. If the pulse width is a lot shorter than that, the motor rotates to the same direction but faster. When the pulse width is longer than the neutral pulse width, the motor rotates to the other direction. 
 
 The problem is that we do not know what is the neutral pulse width for a given SG90 motor. Therefore we have to find out by changing the pulse width and see if the wheel stops rotating. 
 
@@ -465,12 +428,11 @@ The procedure is,
 const int PIN_TEST = PIN_LR;
 ```
 
-In this case we will look for the neutral pulse width for left rear wheel. 
+In this case we will look for the neutral pulse width of the left rear wheel. 
 
 2. just after we upload the code, the left rear wheel is most likely rotating. 
 
-3. open serial monitor, click on the input window to activate the keyboard input, and then hit '[' or ']'. 
-This reduces or increases the pulse width to give to the motor. 
+3. open serial monitor, click on the input window to activate the keyboard input, and then hit '[' or ']'. This reduces or increases the pulse width.
 
 4. look for the pulse width where the motor stops rotating, and note it. 
 
@@ -483,7 +445,6 @@ In order a buggy to roll forward, following two conditions must be met.
 
 1. All four wheels rotates to the same direction. 
 2. All four wheels rotates about the same speed. 
-
 
 ### Wiring
 
@@ -498,14 +459,13 @@ There are no real constraints but the code assumes
 
 Other points are
 
-- use Li-ion 18650 battery to feed power to the motors
-- **Do not feed  5V to ESP32**. ESP32 drives with 3.3 V.
+- use Li-ion 18650 battery to feed the power to the motors (do not take 5V from ESP32).
+- **Do not feed 5V to ESP32**. ESP32 drives with 3.3 V.
 - connect GND of 18650 and ESP32. 
 
 ![All 4 wheels forward](./images/test1.gif)
 
-As you see, LF is too fast, and RF is too slow. 
-Need more adjustment. 
+As you see, LF is too fast, and RF is too slow. Need more adjustment. 
 
 User interface. 
 ![User Interface](./images/ui-3.png)
@@ -532,7 +492,7 @@ The code is in the directory ```esp32_wroom_auto_sideward```.
 ```sh
 ffmpeg -i input.mov -filter_complex "[0:v] fps=30,scale=640:-1:flags=lanczos,split [a][b];[a] palettegen [p];[b][p] paletteuse" output.gif
 ``` 
-
+---
 ### How to create gif animation from MP4 file
 
 1. take a movie with a compact digital camera
