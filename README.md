@@ -6,10 +6,13 @@
 - [Motivation](#motivation)
 - [Operate SG90 with wire](#operate-sg90-with-wire)
 - [Operate SG90 over WiFi](#operate-sg90-servo-motor-over-wifi)
-
 - [Build chassis](#build-chassis)
+- [Search neutral pulse width](#search-neutral-pulse-width)
+- [Let Buggy roll forward](#let-buggy-roll-forward)
+- [Let Buggy roll sideward](#let-buggy-roll-sideward)
 
 
+![Right strafe](./images/strafe-1.gif)
 ---
 ## Motivation
 
@@ -126,7 +129,7 @@ After uploading the code, if SG90 motor started to wave its arm to 180 deg and t
 ---
 ## Operate SG90 servo motor over WiFi
 
-## Code
+### Code
 
 The wiring is the same.  Note,
 
