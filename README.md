@@ -132,9 +132,9 @@ Then upload it.
 
 **NOTE!**
 
-There are two types of USB mini cable. 
+There are two types of USB mini-B cable (the interface to ESP32). 
 One transmits data and power, and the other only power. The latter cannot be used to to write 
-Arduino program on to  ESP32 chip. 
+Arduino program on to ESP32 chip. 
 
 Two cables look exactly the same. 
 Use the one that is "known" to be a data cable. 
@@ -326,6 +326,9 @@ are allowed to access to the local network (= your home network).
 ---
 ## Build Chassis
 
+
+### Remove caps of potentiometers 
+
 It turns out SG90 turns only +-180 degrees, which means
 the car moves only 2-3 mm. 
 
@@ -349,8 +352,33 @@ put the cap again on the potentiometer. Please do this
 trick with an SG90 motor that you are allowed to break.
 
 
+### File horn of motors
+
+The wheels I bought have a hub like a circlar, boxy hole to fix the motor. The horns of SG90 do not fit. 
+So I had to file the horns a bit. 
+
+Put plastic adhesive inside the wheel holes, 
+push the motor horns into the hubs, and wait over 
+a night.  
+
+![Round horn](./images/file-1.jpg)
 
 
+### Build Chassis
+
+... with a cream cheese container. 
+![Chassis from bottom](./images/chassis-1.jpg)
+
+Note that this is a bottom view. That is why the labeling are flipped left and right. Also note the 
+direction of the tilting of the sub-wheels (installed on a main wheel with +-45 degrees rotation).
+They should look "<>" from the bottom, and "><" from the top. 
+
+The name of our prototype vehicle is "Andechser 1". 
+![Chassis from bottom](./images/chassis-2.jpg)
+
+
+---
+## Build Chassis
 
 
 
