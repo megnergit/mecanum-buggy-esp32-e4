@@ -121,7 +121,7 @@ Then upload it.
 
 **NOTE!**
 
-There are two types of USB mini-B cables (the interface to ESP32 from the laptop). One transmits data and power, and the other only power. The latter cannot be used to write  Arduino program on to ESP32 chip. Two cables look exactly the same. Use the one that is "known" to be a data cable. Otherwise one can easily [waste a day](https://github.com/megnergit/AWS_IoT_ESP32_E2).
+There are two types of USB micro-B cables (the interface to ESP32 from the laptop). One transmits data and power, and the other only power. The latter cannot be used to write  Arduino program on to ESP32 chip. Two cables look exactly the same. Use the one that is "known" to be a data cable. Otherwise one can easily [waste a day](https://github.com/megnergit/AWS_IoT_ESP32_E2).
 
 
 After uploading the code, if SG90 motor started to wave its arm to 180 deg and then back to 0 deg, and repeat the move forever, the system is working fine. 
