@@ -1,6 +1,6 @@
 # Mecanum Buggy 
-#### Run Andechser 1!
-#### Sideward!!
+<small> Run Andechser 1! </small>
+<small> sideway! </small>
 
 ---
 ## Table of Contents
